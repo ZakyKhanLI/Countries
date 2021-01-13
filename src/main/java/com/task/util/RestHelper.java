@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RestHelper {
-
     public static ResponseEntity<String> makeCall(String apiUrl) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
