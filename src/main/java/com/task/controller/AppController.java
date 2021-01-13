@@ -47,13 +47,4 @@ public class AppController {
         RestTemplate template = new RestTemplate();
         return template.postForLocation(Constants.TOKEN_URL, HttpMethod.POST, params);
     }
-
-
-
-   /* @RequestMapping(value = "/AccessToken", method = RequestMethod.POST)
-    public void accessToken(HttpServletResponse httpServletResponse){
-        String tokenUrl = Constants.TOKEN_URL;
-        httpServletResponse.setHeader("Location", tokenUrl);
-        httpServletResponse.setStatus(302);
-    }*/
 }

@@ -13,8 +13,6 @@ public class RestHelper {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-
         return restTemplate.exchange(apiUrl, HttpMethod.GET, entity, String.class);
-
     }
 }
