@@ -3,10 +3,6 @@ package com.task.util;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 public class RestHelper {
     public static ResponseEntity<String> makeCall(String apiUrl) {
         RestTemplate restTemplate = new RestTemplate();
