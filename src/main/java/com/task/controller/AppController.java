@@ -21,11 +21,6 @@ public class AppController {
         this.appService = appService;
     }
 
-    @GetMapping("/Generate")
-    private String generateCode() {
-        return appService.retrieveData();
-    }
-
     @RequestMapping(value = "/redirect", method = RequestMethod.GET)
     public void method(HttpServletResponse httpServletResponse) {
         String shopifyUrl = Constants.SHOPIFY_URL;
@@ -40,7 +35,6 @@ public class AppController {
 
     public static String generateAccessToken(String code){
         String token = "";
-
         try{
             RestTemplate restTemplate = new RestTemplate();
             MultiValueMap<String, String> params= new LinkedMultiValueMap<>();
@@ -55,19 +49,21 @@ public class AppController {
             System.out.println(accessToken);
             JSONObject jsonObject = new JSONObject(response.getBody());
             accessToken = jsonObject.getString("access_token");
-            System.out.println(accessToken);
         }
         catch(Exception e){
             e.printStackTrace();
         }
         return token;
     }
+
+    @GetMapping("/Generate")
+    private String generateCode() {
+        return appService.retrieveData();
+    }
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public void getData(HttpServletResponse httpServletResponse) {
-        System.out.println(accessToken);
-        String DATA_URL = "https://:"+API_KEY+":"+accessToken+"@securecod4.myshopify.com/admin/api/2020-07/products.json";
+        String DATA_URL = "https://"+API_KEY+":"+accessToken+"@securecod4.myshopify.com/admin/api/2020-07/products.json";
         httpServletResponse.setHeader("Location", DATA_URL);
         httpServletResponse.setStatus(302);
     }
-
 }
