@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
-
 @Service
 public class AppService {
     @Autowired
@@ -27,17 +25,25 @@ public class AppService {
             JSONObject objects = getArray.getJSONObject(i);
             products.setId(Long.valueOf(String.valueOf(objects.get("id"))));
             products.setTitle(String.valueOf(objects.get("title")));
-            products.setBody_html(String.valueOf(objects.get("vendor")));
+            products.setVendor(String.valueOf(objects.get("vendor")));
             products.setProduct_type(String.valueOf(objects.get("product_type")));
             appRepository.save(products);
         }
         return response.getBody();
     }
 
-    public Products retrieveDataById(Long id) throws JSONException {
-        ResponseEntity<String> response = RestHelper.makeCall(Constants.PRODUCT_URL);
+    public Products retrieveDataById(Long id){
+    /*    ResponseEntity<String> response = RestHelper.makeCall(Constants.PRODUCT_URL);
         JSONObject jsonObject = new JSONObject(response.getBody());
-        id = Long.valueOf(String.valueOf(jsonObject.get("id")));
+        id = Long.valueOf(String.valueOf(jsonObject.get("id")));*/
         return appRepository.findById(id).get();
+    }
+
+    public void saveOrUpdateProductOnDB(Products products){
+        appRepository.save(products);
+    }
+
+    public void deleteProduct(Long id){
+        appRepository.deleteById(id);
     }
 }

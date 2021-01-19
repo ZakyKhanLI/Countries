@@ -50,7 +50,6 @@ public class AppController {
             ResponseEntity<String> response = restTemplate.postForEntity(Constants.TOKEN_URL, request , String.class);
             JSONObject jsonObject = new JSONObject(response.getBody());
             accessToken = jsonObject.getString("access_token");
-            System.out.println(accessToken);
 
         }
         catch(Exception e){
@@ -59,7 +58,7 @@ public class AppController {
         return token;
     }
 
-    @GetMapping("/Generate")
+    @GetMapping("/Product")
     private String generateCode() throws JSONException {
         return appService.retrieveData();
     }
@@ -74,5 +73,11 @@ public class AppController {
         String DATA_URL = "https://"+API_KEY+":"+accessToken+"@securecod4.myshopify.com/admin/api/2020-07/products.json";
         httpServletResponse.setHeader("Location", DATA_URL);
         httpServletResponse.setStatus(302);
+    }
+
+    @PostMapping("/SaveProduct")
+    public Long saveProductOnDB(@RequestBody Products products){
+        appService.saveOrUpdateProductOnDB(products);
+        return products.getId();
     }
 }

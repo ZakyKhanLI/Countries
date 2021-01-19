@@ -35,12 +35,12 @@ public class Products {
         this.title = title;
     }
 
-    public String getBody_html() {
+    public String getVendor() {
         return vendor;
     }
 
-    public void setBody_html(String body_html) {
-        this.vendor = body_html;
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
     }
 
 
