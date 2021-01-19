@@ -5,6 +5,7 @@ import com.task.service.AppService;
 import com.task.util.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -15,9 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 @CrossOrigin(origins = {"*"})
 @RestController
 public class AppController {
+    @Autowired
+    private final AppService appService;
+
     public static String accessToken = "";
     public static  String API_KEY = "ef98eff4c64e483b2e61fab4e7503843";
-    private final AppService appService;
 
     public AppController(AppService appService){
         this.appService = appService;
@@ -63,7 +66,7 @@ public class AppController {
         return appService.retrieveData();
     }
 
-    @GetMapping("/Generate/{id}")
+    @GetMapping("/Product/{id}")
     private Products getProducts(@PathVariable("id") Long id) throws JSONException {
         return appService.retrieveDataById(id);
     }
@@ -75,9 +78,14 @@ public class AppController {
         httpServletResponse.setStatus(302);
     }
 
-    @PostMapping("/SaveProduct")
+    @PostMapping("/Product")
     public Long saveProductOnDB(@RequestBody Products products){
         appService.saveOrUpdateProductOnDB(products);
         return products.getId();
+    }
+
+    @DeleteMapping("/Product/{id}")
+    public void deleteProduct(@PathVariable("id")  Long id){
+        appService.deleteProduct(id);
     }
 }
