@@ -1,7 +1,9 @@
 package com.task.controller;
 
+import com.task.entity.Products;
 import com.task.service.AppService;
 import com.task.util.Constants;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -46,9 +48,10 @@ public class AppController {
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
             ResponseEntity<String> response = restTemplate.postForEntity(Constants.TOKEN_URL, request , String.class);
-            System.out.println(accessToken);
             JSONObject jsonObject = new JSONObject(response.getBody());
             accessToken = jsonObject.getString("access_token");
+            System.out.println(accessToken);
+
         }
         catch(Exception e){
             e.printStackTrace();
@@ -57,9 +60,15 @@ public class AppController {
     }
 
     @GetMapping("/Generate")
-    private String generateCode() {
+    private String generateCode() throws JSONException {
         return appService.retrieveData();
     }
+
+    @GetMapping("/Generate/{id}")
+    private Products getProducts(@PathVariable("id") Long id) throws JSONException {
+        return appService.retrieveDataById(id);
+    }
+
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public void getData(HttpServletResponse httpServletResponse) {
         String DATA_URL = "https://"+API_KEY+":"+accessToken+"@securecod4.myshopify.com/admin/api/2020-07/products.json";
